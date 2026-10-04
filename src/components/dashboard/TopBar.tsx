@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
-import { Bell, Menu, Search, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
+import NotificationBell from "@/components/dashboard/NotificationBell";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -76,10 +77,7 @@ export default function TopBar() {
           </button>
 
           {/* Notifications */}
-          <button className="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#F56962] rounded-full" />
-          </button>
+          <NotificationBell />
 
           {/* User Avatar */}
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-white text-xs font-bold cursor-pointer select-none">
