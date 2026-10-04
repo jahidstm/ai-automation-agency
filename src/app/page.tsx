@@ -6,6 +6,10 @@ import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ChatbotDemoWidget from "@/components/landing/ChatbotDemoWidget";
 import ROICalculator from "@/components/landing/ROICalculator";
 import CaseStudiesSection from "@/components/landing/CaseStudiesSection";
+import PricingSection from "@/components/landing/PricingSection";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import CTAStrip from "@/components/landing/CTAStrip";
+import Footer from "@/components/landing/Footer";
 
 export default function Home() {
   return (
@@ -19,7 +23,11 @@ export default function Home() {
         <ChatbotDemoWidget />
         <ROICalculator />
         <CaseStudiesSection />
+        <PricingSection />
+        <TestimonialsSection />
+        <CTAStrip />
       </main>
+      <Footer />
     </>
   );
 }
