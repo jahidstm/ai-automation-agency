@@ -3,7 +3,7 @@ import { Poppins, Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const poppins = Poppins({
   variable: "--font-heading",
@@ -62,8 +62,22 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={cn("h-full", "antialiased", poppins.variable, plusJakartaSans.variable, "font-sans", geist.variable)}>
-      <body className="min-h-full flex flex-col bg-bg-page text-text-body font-body">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(
+        "h-full",
+        "antialiased",
+        poppins.variable,
+        plusJakartaSans.variable,
+        "font-sans",
+        geist.variable
+      )}
+    >
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col bg-bg-page text-text-body font-body"
+      >
         {children}
       </body>
     </html>
