@@ -12,7 +12,7 @@
 | 0 | Project Setup & Foundation | ✅ Complete | 5/5 |
 | 1 | Design System & Global Styles | ✅ Complete | 4/4 |
 | 2 | Landing Page (Public) | ✅ Complete | 12/12 |
-| 3 | Authentication & User Roles | ⬜ Pending | 0/4 |
+| 3 | Authentication & User Roles | ✅ Complete | 4/4 |
 | 4 | Client Dashboard | ⬜ Pending | 0/6 |
 | 5 | Real-Time Messaging | ⬜ Pending | 0/4 |
 | 6 | Payment System (Stripe) | ⬜ Pending | 0/4 |
@@ -76,7 +76,7 @@
 
 ---
 
-## ⬜ PHASE 3 — Authentication & User Roles
+## ✅ PHASE 3 — Authentication & User Roles
 > **Goal:** Secure login system with role-based routing (Client vs Admin vs Team).
 
 ### 👤 User Tasks (আপনাকে করতে হবে):
@@ -91,10 +91,10 @@
 
 | # | Sub-Task | Executor | Status | Commit |
 |---|----------|----------|--------|--------|
-| 3.1 | Install Supabase client + create `lib/supabase.ts` config | 🤖 AI | ⬜ Pending | `feat(auth): supabase client setup` |
-| 3.2 | Create DB tables: `profiles`, `roles` — Run SQL in Supabase → trigger on `auth.users` | 🤖 AI | ⬜ Pending | `feat(auth): db schema profiles` |
-| 3.3 | Build Login page (`/login`) + Register page (`/register`) — Magic Link + Email/Password | 🤖 AI | ⬜ Pending | `feat(auth): login register pages` |
-| 3.4 | Add `middleware.ts` — Protected routes: `/dashboard/*` → client, `/admin/*` → admin only | 🤖 AI | ⬜ Pending | `feat(auth): protected route middleware` |
+| 3.1 | Install Supabase client + create `lib/supabase.ts` config | 🤖 AI | ✅ Complete | `feat(auth): supabase client setup` |
+| 3.2 | Create DB tables: `profiles`, `roles` — Run SQL in Supabase → trigger on `auth.users` | 🤖 AI | ✅ Complete | `feat(auth): db schema profiles` |
+| 3.3 | Build Login page (`/login`) + Register page (`/register`) — Magic Link + Email/Password | 🤖 AI | ✅ Complete | `feat(auth): login register pages` |
+| 3.4 | Add `proxy.ts` — Protected routes: `/dashboard/*` → client, `/admin/*` → admin only | 🤖 AI | ✅ Complete | `feat(auth): protected route middleware` |
 
 ---
 
