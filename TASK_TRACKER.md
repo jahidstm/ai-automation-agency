@@ -11,7 +11,7 @@
 |-------|------|--------|----------|
 | 0 | Project Setup & Foundation | ✅ Complete | 5/5 |
 | 1 | Design System & Global Styles | ✅ Complete | 4/4 |
-| 2 | Landing Page (Public) | 🔄 In Progress | 4/12 |
+| 2 | Landing Page (Public) | 🔄 In Progress | 8/12 |
 | 3 | Authentication & User Roles | ⬜ Pending | 0/4 |
 | 4 | Client Dashboard | ⬜ Pending | 0/6 |
 | 5 | Real-Time Messaging | ⬜ Pending | 0/4 |
@@ -65,10 +65,10 @@
 | 2.2 | **Hero Section** — Bold heading (Poppins), star rating pill, dual CTAs, lead audit input bar, floating trust badges | 🤖 AI | ✅ Complete | `feat(landing): hero section` |
 | 2.3 | **Social Proof / Logo Strip** — Grayscale client logo cloud (placeholder logos), animated scroll | 🤖 AI | ✅ Complete | `feat(landing): social proof strip` |
 | 2.4 | **Services Cards** — 3 cards: AI Chatbot, Workflow Automation, Data Pipeline with pricing & outcome badges | 🤖 AI | ✅ Complete | `feat(landing): services section` |
-| 2.5 | **How It Works** — 4-step horizontal animated timeline | 🤖 AI | ⬜ Pending | `feat(landing): how it works` |
-| 2.6 | **Live Chatbot Demo Widget** — Embedded AI chat UI (static mock first, API later in Phase 8) | 🤖 AI | ⬜ Pending | `feat(landing): chatbot demo widget` |
-| 2.7 | **ROI Calculator** — Interactive sliders (team size, hours/day) → animated money/time saved counter | 🤖 AI | ⬜ Pending | `feat(landing): roi calculator` |
-| 2.8 | **Case Studies / Portfolio** — 3 project cards with Problem→Result metrics | 🤖 AI | ⬜ Pending | `feat(landing): case studies` |
+| 2.5 | **How It Works** — 4-step horizontal animated timeline | 🤖 AI | ✅ Complete | `feat(landing): how it works` |
+| 2.6 | **Live Chatbot Demo Widget** — Embedded AI chat UI (static mock first, API later in Phase 8) | 🤖 AI | ✅ Complete | `feat(landing): chatbot demo widget` |
+| 2.7 | **ROI Calculator** — Interactive sliders (team size, hours/day) → animated money/time saved counter | 🤖 AI | ✅ Complete | `feat(landing): roi calculator` |
+| 2.8 | **Case Studies / Portfolio** — 3 project cards with Problem→Result metrics | 🤖 AI | ✅ Complete | `feat(landing): case studies` |
 | 2.9 | **Pricing Table** — 3 tiers (Starter / Growth / Scale), coral "Most Popular" badge on Growth | 🤖 AI | ⬜ Pending | `feat(landing): pricing table` |
 | 2.10 | **Testimonials Section** — Scrolling review cards with stars + client name | 🤖 AI | ⬜ Pending | `feat(landing): testimonials` |
 | 2.11 | **Final CTA Strip** — Deep navy background, bold heading, coral CTA button | 🤖 AI | ⬜ Pending | `feat(landing): final cta strip` |
@@ -277,5 +277,6 @@ dev        → Active development (আমরা এখানেই কাজ ক
 ---
 
 *এই tracker প্রতিটি sub-phase complete হওয়ার পর আপডেট করা হবে।*
+
 
 
