@@ -13,7 +13,7 @@
 | 1 | Design System & Global Styles | ✅ Complete | 4/4 |
 | 2 | Landing Page (Public) | ✅ Complete | 12/12 |
 | 3 | Authentication & User Roles | ✅ Complete | 4/4 |
-| 4 | Client Dashboard | ⬜ Pending | 0/6 |
+| 4 | Client Dashboard | ✅ Complete | 6/6 |
 | 5 | Real-Time Messaging | ⬜ Pending | 0/4 |
 | 6 | Payment System (Stripe) | ⬜ Pending | 0/4 |
 | 7 | Admin Panel | ⬜ Pending | 0/5 |
@@ -98,18 +98,18 @@
 
 ---
 
-## ⬜ PHASE 4 — Client Dashboard
+## ✅ PHASE 4 — Client Dashboard
 > **Goal:** Full Fiverr-level client portal where clients track everything.
 > **Commit Prefix:** `feat(client-dash):`
 
 | # | Sub-Task | Executor | Status | Commit |
 |---|----------|----------|--------|--------|
-| 4.1 | Dashboard Shell Layout — White sidebar (250px) + top navbar + content area | 🤖 AI | ⬜ Pending | `feat(client-dash): layout shell` |
-| 4.2 | Overview Page — Welcome banner, 4 KPI stat cards, active order card with milestone stepper | 🤖 AI | ⬜ Pending | `feat(client-dash): overview page` |
-| 4.3 | My Orders Page — Order list with status badges, order detail view with full milestone timeline + Loom embed | 🤖 AI | ⬜ Pending | `feat(client-dash): orders page` |
-| 4.4 | Files & Deliverables — Categorized file vault (Supabase Storage), preview + download | 🤖 AI | ⬜ Pending | `feat(client-dash): file locker` |
-| 4.5 | Invoices & Billing — Invoice list, PDF preview, payment status badges, "Pay Now" button stub | 🤖 AI | ⬜ Pending | `feat(client-dash): invoices page` |
-| 4.6 | Profile & Settings — Edit profile, password change, notification preferences | 🤖 AI | ⬜ Pending | `feat(client-dash): profile settings` |
+| 4.1 | Dashboard Shell Layout — White sidebar (250px) + top navbar + content area | 🤖 AI | ✅ Complete | `feat(client-dash): layout shell` |
+| 4.2 | Overview Page — Welcome banner, 4 KPI stat cards, active order card with milestone stepper | 🤖 AI | ✅ Complete | `feat(client-dash): overview page` |
+| 4.3 | My Orders Page — Order list with status badges, order detail view with full milestone timeline | 🤖 AI | ✅ Complete | `feat(client-dash): orders page` |
+| 4.4 | Files & Deliverables — Categorized file vault, preview + download | 🤖 AI | ✅ Complete | `feat(client-dash): file locker` |
+| 4.5 | Invoices & Billing — Invoice list, payment status badges, "Pay Now" button stub | 🤖 AI | ✅ Complete | `feat(client-dash): invoices page` |
+| 4.6 | Profile & Settings — Edit profile, password change, notification toggles | 🤖 AI | ✅ Complete | `feat(client-dash): profile settings` |
 
 ---
 
