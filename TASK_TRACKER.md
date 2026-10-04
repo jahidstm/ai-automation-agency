@@ -10,7 +10,7 @@
 | Phase | Name | Status | Progress |
 |-------|------|--------|----------|
 | 0 | Project Setup & Foundation | ✅ Complete | 5/5 |
-| 1 | Design System & Global Styles | ⬜ Pending | 0/4 |
+| 1 | Design System & Global Styles | ✅ Complete | 4/4 |
 | 2 | Landing Page (Public) | ⬜ Pending | 0/12 |
 | 3 | Authentication & User Roles | ⬜ Pending | 0/4 |
 | 4 | Client Dashboard | ⬜ Pending | 0/6 |
@@ -42,16 +42,16 @@
 
 ---
 
-## ⬜ PHASE 1 — Design System & Global Styles
+## ✅ PHASE 1 — Design System & Global Styles
 > **Goal:** HigherVisibility-inspired color tokens, Poppins typography, reusable base components all configured in one place.
 > **Commit Prefix:** `feat(design):`
 
 | # | Sub-Task | Executor | Status | Commit |
 |---|----------|----------|--------|--------|
-| 1.1 | Add Poppins + Plus Jakarta Sans via Google Fonts, configure `layout.tsx` | 🤖 AI | ⬜ Pending | `feat(design): add fonts` |
-| 1.2 | Create CSS design token variables (colors, spacing, radius, shadows) in `globals.css` | 🤖 AI | ⬜ Pending | `feat(design): add CSS design tokens` |
-| 1.3 | Configure Tailwind `tailwind.config.ts` to extend theme with brand tokens | 🤖 AI | ⬜ Pending | `feat(design): extend tailwind theme` |
-| 1.4 | Initialize Shadcn/UI + install: Button, Card, Badge, Input, Dialog, Tabs, Accordion, Dropdown components | 🤖 AI | ⬜ Pending | `feat(design): setup shadcn/ui components` |
+| 1.1 | Add Poppins + Plus Jakarta Sans via Google Fonts, configure layout.tsx | 🤖 AI | ✅ Complete | eat(design): add fonts & layout |
+| 1.2 | Create CSS design token variables (colors, spacing, radius, shadows) in globals.css | 🤖 AI | ✅ Complete | eat(design): add CSS design tokens |
+| 1.3 | Configure Tailwind theme with brand tokens in globals.css | 🤖 AI | ✅ Complete | eat(design): extend tailwind theme |
+| 1.4 | Initialize Shadcn/UI + install: Button, Card, Badge, Input, Dialog, Tabs, Accordion, Dropdown components | 🤖 AI | ✅ Complete | eat(design): setup shadcn/ui components |
 
 ---
 
@@ -277,3 +277,4 @@ dev        → Active development (আমরা এখানেই কাজ ক
 ---
 
 *এই tracker প্রতিটি sub-phase complete হওয়ার পর আপডেট করা হবে।*
+
