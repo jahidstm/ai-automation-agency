@@ -73,6 +73,10 @@ export default function HeroSection() {
           padding: "0 1.5rem",
           position: "relative",
           zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
         }}
       >
         {/* Star rating pill */}
@@ -167,6 +171,8 @@ export default function HeroSection() {
           onSubmit={handleAudit}
           style={{
             display: "flex",
+            justifyContent: "center",
+            width: "100%",
             gap: "0.625rem",
             maxWidth: "540px",
             marginBottom: "1.25rem",
@@ -235,6 +241,7 @@ export default function HeroSection() {
           style={{
             display: "flex",
             flexWrap: "wrap",
+            justifyContent: "center",
             gap: "0.875rem",
             marginBottom: "3.5rem",
           }}

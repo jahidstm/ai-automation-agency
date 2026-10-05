@@ -47,10 +47,20 @@ export default function ChatbotDemoWidget() {
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages, isTyping]);
 
   const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -169,7 +179,7 @@ export default function ChatbotDemoWidget() {
             </div>
 
             {/* Messages */}
-            <div style={{ flex: 1, overflowY: "auto", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+            <div ref={messagesContainerRef} style={{ flex: 1, overflowY: "auto", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.875rem" }}>
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -238,7 +248,7 @@ export default function ChatbotDemoWidget() {
                   </div>
                 </div>
               )}
-              <div ref={bottomRef} />
+              {/* Auto-scroll anchor removed */}
             </div>
 
             {/* Quick prompts */}
