@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS public.invoices (
   order_id          UUID REFERENCES public.orders(id) ON DELETE SET NULL,
   description       TEXT NOT NULL,
   amount            NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
-  currency          TEXT NOT NULL DEFAULT ''usd'',
-  status            TEXT NOT NULL DEFAULT ''draft'' CHECK (status IN (''draft'', ''sent'', ''unpaid'', ''paid'', ''overdue'', ''cancelled'')),
+  currency          TEXT NOT NULL DEFAULT 'usd',
+  status            TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'sent', 'unpaid', 'paid', 'overdue', 'cancelled')),
   due_date          DATE,
   stripe_payment_intent_id  TEXT,
   stripe_checkout_session_id TEXT,
@@ -28,11 +28,11 @@ CREATE TABLE IF NOT EXISTS public.payments (
   invoice_id        UUID NOT NULL REFERENCES public.invoices(id) ON DELETE CASCADE,
   client_id         UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   amount            NUMERIC(10, 2) NOT NULL,
-  currency          TEXT NOT NULL DEFAULT ''usd'',
+  currency          TEXT NOT NULL DEFAULT 'usd',
   stripe_payment_intent_id TEXT NOT NULL,
   stripe_charge_id  TEXT,
-  status            TEXT NOT NULL DEFAULT ''pending'' CHECK (status IN (''pending'', ''succeeded'', ''failed'', ''refunded'')),
-  metadata          JSONB DEFAULT ''{}'',
+  status            TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'succeeded', 'failed', 'refunded')),
+  metadata          JSONB DEFAULT '{}',
   created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -65,7 +65,7 @@ CREATE POLICY "Clients can view own invoices"
 DROP POLICY IF EXISTS "Service role full access invoices" ON public.invoices;
 CREATE POLICY "Service role full access invoices"
   ON public.invoices FOR ALL
-  USING (auth.jwt() ->> ''role'' = ''service_role'');
+  USING (auth.jwt() ->> 'role' = 'service_role');
 
 -- 6. RLS Policies — payments
 DROP POLICY IF EXISTS "Clients can view own payments" ON public.payments;
@@ -76,7 +76,7 @@ CREATE POLICY "Clients can view own payments"
 DROP POLICY IF EXISTS "Service role full access payments" ON public.payments;
 CREATE POLICY "Service role full access payments"
   ON public.payments FOR ALL
-  USING (auth.jwt() ->> ''role'' = ''service_role'');
+  USING (auth.jwt() ->> 'role' = 'service_role');
 
 -- 7. Indexes
 CREATE INDEX IF NOT EXISTS idx_invoices_client_id ON public.invoices(client_id);
@@ -87,6 +87,6 @@ CREATE INDEX IF NOT EXISTS idx_payments_stripe_intent ON public.payments(stripe_
 
 -- 8. Seed sample invoices (optional — for testing, replace UUID with real client user id)
 -- INSERT INTO public.invoices (invoice_number, client_id, description, amount, status, due_date)
--- VALUES (''INV-2024-001'', ''<your-client-user-uuid>'', ''AI Chatbot Integration — Initial Deposit'', 900.00, ''unpaid'', NOW() + INTERVAL ''7 days'');
+-- VALUES ('INV-2024-001', '<your-client-user-uuid>', 'AI Chatbot Integration — Initial Deposit', 900.00, 'unpaid', NOW() + INTERVAL '7 days');
 
 SELECT 'Phase 6 payment tables created successfully! ✅' AS result;
