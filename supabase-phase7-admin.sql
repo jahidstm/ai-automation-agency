@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS public.orders (
   client_id         UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   title             TEXT NOT NULL,
   description       TEXT,
-  status            TEXT NOT NULL DEFAULT ''pending'' CHECK (status IN (''pending'', ''in_progress'', ''review'', ''completed'', ''cancelled'')),
-  priority          TEXT NOT NULL DEFAULT ''medium'' CHECK (priority IN (''low'', ''medium'', ''high'', ''urgent'')),
+  status            TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'review', 'completed', 'cancelled')),
+  priority          TEXT NOT NULL DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
   total_amount      NUMERIC(10, 2) DEFAULT 0,
   deadline          DATE,
   notes             TEXT,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.order_milestones (
   order_id    UUID NOT NULL REFERENCES public.orders(id) ON DELETE CASCADE,
   title       TEXT NOT NULL,
   description TEXT,
-  status      TEXT NOT NULL DEFAULT ''pending'' CHECK (status IN (''pending'', ''in_progress'', ''completed'')),
+  status      TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed')),
   sort_order  INT DEFAULT 0,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -38,9 +38,9 @@ CREATE TABLE IF NOT EXISTS public.blog_posts (
   excerpt          TEXT,
   content          TEXT,
   cover_image      TEXT,
-  status           TEXT NOT NULL DEFAULT ''draft'' CHECK (status IN (''draft'', ''published'', ''archived'')),
+  status           TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
   author_id        UUID REFERENCES auth.users(id),
-  tags             TEXT[] DEFAULT ''{}'',
+  tags             TEXT[] DEFAULT '{}',
   meta_title       TEXT,
   meta_description TEXT,
   published_at     TIMESTAMPTZ,
@@ -69,7 +69,7 @@ DROP POLICY IF EXISTS "Clients can view own orders" ON public.orders;
 CREATE POLICY "Clients can view own orders" ON public.orders FOR SELECT USING (auth.uid() = client_id);
 
 DROP POLICY IF EXISTS "Service role full access orders" ON public.orders;
-CREATE POLICY "Service role full access orders" ON public.orders FOR ALL USING (auth.jwt() ->> ''role'' = ''service_role'');
+CREATE POLICY "Service role full access orders" ON public.orders FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 
 -- 7. RLS — order_milestones
 DROP POLICY IF EXISTS "Clients can view own milestones" ON public.order_milestones;
@@ -77,14 +77,14 @@ CREATE POLICY "Clients can view own milestones" ON public.order_milestones FOR S
   USING (EXISTS (SELECT 1 FROM public.orders o WHERE o.id = order_id AND o.client_id = auth.uid()));
 
 DROP POLICY IF EXISTS "Service role full access milestones" ON public.order_milestones;
-CREATE POLICY "Service role full access milestones" ON public.order_milestones FOR ALL USING (auth.jwt() ->> ''role'' = ''service_role'');
+CREATE POLICY "Service role full access milestones" ON public.order_milestones FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 
 -- 8. RLS — blog_posts
 DROP POLICY IF EXISTS "Public can view published posts" ON public.blog_posts;
-CREATE POLICY "Public can view published posts" ON public.blog_posts FOR SELECT USING (status = ''published'');
+CREATE POLICY "Public can view published posts" ON public.blog_posts FOR SELECT USING (status = 'published');
 
 DROP POLICY IF EXISTS "Service role full access blog" ON public.blog_posts;
-CREATE POLICY "Service role full access blog" ON public.blog_posts FOR ALL USING (auth.jwt() ->> ''role'' = ''service_role'');
+CREATE POLICY "Service role full access blog" ON public.blog_posts FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 
 -- 9. Indexes
 CREATE INDEX IF NOT EXISTS idx_orders_client_id ON public.orders(client_id);
@@ -93,4 +93,4 @@ CREATE INDEX IF NOT EXISTS idx_milestones_order_id ON public.order_milestones(or
 CREATE INDEX IF NOT EXISTS idx_blog_slug ON public.blog_posts(slug);
 CREATE INDEX IF NOT EXISTS idx_blog_status ON public.blog_posts(status);
 
-SELECT ''Phase 7 admin tables created successfully!'' AS result;
+SELECT 'Phase 7 admin tables created successfully!' AS result;

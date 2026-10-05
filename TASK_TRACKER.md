@@ -157,11 +157,11 @@
 
 | # | Sub-Task | Executor | Status | Commit |
 |---|----------|----------|--------|--------|
-| 7.1✅ Complete
-| 7.2✅ Complete
-| 7.3✅ Complete
-| 7.4✅ Complete
-| 7.5✅ Complete
+| 7.1 | Admin Dashboard Overview — Revenue KPI cards, revenue chart (Recharts), leads pipeline, activity feed | 🤖 AI | ✅ Complete | `feat(admin): Phase 7 complete` |
+| 7.2 | Client Management — Client list table, client profile (orders, total spent), invite link, private notes | 🤖 AI | ✅ Complete | `feat(admin): Phase 7 complete` |
+| 7.3 | Order Management — Create/edit orders, update milestones, deliver, file upload, Loom video add | 🤖 AI | ✅ Complete | `feat(admin): Phase 7 complete` |
+| 7.4 | Invoice Management — Create invoice, set amount/due date, generate PDF, track payment status | 🤖 AI | ✅ Complete | `feat(payments): Phase 6 complete` |
+| 7.5 | Blog / Case Study CMS — Write, publish, schedule blog posts + case studies (SEO fields) | 🤖 AI | ✅ Complete | `feat(admin): Phase 7 complete` |
 
 ---
 
