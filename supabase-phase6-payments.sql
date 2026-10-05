@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.invoices (
   id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   invoice_number    TEXT NOT NULL UNIQUE,
   client_id         UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  order_id          UUID REFERENCES public.orders(id) ON DELETE SET NULL,
+  order_id          UUID,
   description       TEXT NOT NULL,
   amount            NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
   currency          TEXT NOT NULL DEFAULT 'usd',
