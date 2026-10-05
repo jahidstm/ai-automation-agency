@@ -100,7 +100,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
+                className="w-full px-4 py-3 h-12 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
               />
             </div>
 
@@ -121,7 +121,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 pr-10 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
+                  className="w-full px-4 py-3 pr-10 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
                 />
                 <button
                   type="button"
@@ -137,7 +137,7 @@ export default function LoginPage() {
               type="submit"
               disabled={loading}
               id="login-submit-btn"
-              className="w-full bg-[#F56962] hover:bg-[#e05a53] text-white font-semibold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm mt-2"
+              className="w-full bg-[#F56962] hover:bg-[#e05a53] text-white font-semibold py-3 h-12 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm mt-2"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
               {loading ? "Signing in..." : "Sign in"}
@@ -155,7 +155,7 @@ export default function LoginPage() {
               onClick={handleMagicLink}
               disabled={magicLoading}
               id="magic-link-btn"
-              className="w-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+              className="w-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium py-3 h-12 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
             >
               {magicLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
