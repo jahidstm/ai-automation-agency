@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
-import { Eye, EyeOff, Loader2, Zap, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Lock, User, CheckCircle2 } from "lucide-react";
 
 const passwordStrength = (pwd: string) => {
   let score = 0;
@@ -28,7 +28,7 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState(false);
 
   const strength = passwordStrength(password);
-  const strengthColors = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400"];
+  const strengthColors = ["bg-red-400", "bg-amber-400", "bg-emerald-400", "bg-green-500"];
   const strengthLabels = ["", "Weak", "Fair", "Good", "Strong"];
 
   async function handleRegister(e: React.FormEvent) {
@@ -37,7 +37,7 @@ export default function RegisterPage() {
     setError("");
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError("Password must be at least 8 characters long.");
       setLoading(false);
       return;
     }
@@ -59,74 +59,86 @@ export default function RegisterPage() {
 
     setSuccess(true);
     setLoading(false);
-    // Since email confirmation is OFF in dev, redirect to dashboard
     setTimeout(() => router.push("/dashboard"), 1500);
   }
 
   return (
-    <div className="w-full max-w-md">
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-xl text-slate-900">AutomateAI<span className="text-[#F56962]">.</span></span>
-          </Link>
-          <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
-          <p className="text-slate-500 mt-1 text-sm">Start your automation journey today</p>
+    <div className="w-full">
+      <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200/80 p-7 sm:p-9">
+        <div className="mb-7">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Create your account
+          </h1>
+          <p className="text-slate-500 mt-2 text-sm">
+            Start automating your enterprise workflows in minutes.
+          </p>
         </div>
 
         {success ? (
-          <div className="text-center py-6">
-            <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-slate-900 mb-2">Account created!</h2>
-            <p className="text-slate-500 text-sm">Redirecting you to the dashboard...</p>
+          <div className="text-center py-8">
+            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600">
+              <CheckCircle2 className="w-10 h-10" />
+            </div>
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Account created successfully!</h2>
+            <p className="text-slate-500 text-sm">Redirecting you to your client dashboard...</p>
           </div>
         ) : (
           <form onSubmit={handleRegister} className="space-y-4">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-                {error}
+              <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm flex items-start gap-2.5">
+                <span className="shrink-0 mt-0.5 text-base">⚠️</span>
+                <span>{error}</span>
               </div>
             )}
 
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Full name
+              <label htmlFor="fullName" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+                Full Name
               </label>
-              <input
-                id="fullName"
-                type="text"
-                required
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="John Doe"
-                className="w-full px-4 py-3 h-12 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <User className="w-4 h-4" />
+                </div>
+                <input
+                  id="fullName"
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="John Doe"
+                  className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-violet-600 focus:bg-white focus:ring-4 focus:ring-violet-500/10 transition-all"
+                />
+              </div>
             </div>
 
             <div>
-              <label htmlFor="reg-email" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Email address
+              <label htmlFor="reg-email" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+                Work Email
               </label>
-              <input
-                id="reg-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
-                className="w-full px-4 py-3 h-12 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  id="reg-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@company.com"
+                  className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-violet-600 focus:bg-white focus:ring-4 focus:ring-violet-500/10 transition-all"
+                />
+              </div>
             </div>
 
             <div>
-              <label htmlFor="reg-password" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="reg-password" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
                 Password
               </label>
               <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Lock className="w-4 h-4" />
+                </div>
                 <input
                   id="reg-password"
                   type={showPassword ? "text" : "password"}
@@ -134,31 +146,34 @@ export default function RegisterPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 8 characters"
-                  className="w-full px-4 py-3 pr-10 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
+                  className="w-full h-12 pl-10 pr-11 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-violet-600 focus:bg-white focus:ring-4 focus:ring-violet-500/10 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+
               {password && (
-                <div className="mt-2">
-                  <div className="flex gap-1">
+                <div className="mt-2.5">
+                  <div className="flex gap-1.5">
                     {[1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
-                        className={`h-1 flex-1 rounded-full transition-all ${
+                        className={`h-1.5 flex-1 rounded-full transition-all ${
                           strength >= i ? strengthColors[strength - 1] : "bg-slate-200"
                         }`}
                       />
                     ))}
                   </div>
                   {strength > 0 && (
-                    <p className="text-xs text-slate-500 mt-1">
-                      Password strength: <span className="font-medium">{strengthLabels[strength]}</span>
+                    <p className="text-xs text-slate-500 mt-1.5 flex items-center justify-between">
+                      <span>Password strength:</span>
+                      <span className="font-semibold text-slate-700">{strengthLabels[strength]}</span>
                     </p>
                   )}
                 </div>
@@ -169,25 +184,25 @@ export default function RegisterPage() {
               type="submit"
               disabled={loading}
               id="register-submit-btn"
-              className="w-full bg-[#F56962] hover:bg-[#e05a53] text-white font-semibold py-3 h-12 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm mt-2"
+              className="w-full h-12 bg-gradient-to-r from-[#F56962] to-[#fa7c76] hover:from-[#e05a53] hover:to-[#f56962] text-white font-semibold rounded-xl shadow-lg shadow-[#F56962]/25 hover:shadow-xl hover:shadow-[#F56962]/35 active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-sm mt-3 disabled:opacity-60 cursor-pointer"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              {loading ? "Creating account..." : "Create free account"}
+              {loading ? "Creating account..." : "Create Free Account"}
             </button>
 
-            <p className="text-center text-xs text-slate-400 mt-2">
+            <p className="text-center text-xs text-slate-500 mt-3 leading-relaxed">
               By signing up, you agree to our{" "}
-              <Link href="/terms" className="text-violet-600 hover:underline">Terms</Link>
-              {" & "}
-              <Link href="/privacy" className="text-violet-600 hover:underline">Privacy Policy</Link>
+              <Link href="/terms" className="text-violet-600 hover:underline font-medium">Terms of Service</Link>
+              {" and "}
+              <Link href="/privacy" className="text-violet-600 hover:underline font-medium">Privacy Policy</Link>.
             </p>
 
-            <p className="text-center text-sm text-slate-500 mt-3">
+            <div className="pt-3 border-t border-slate-100 text-center text-sm text-slate-600">
               Already have an account?{" "}
-              <Link href="/login" className="text-violet-600 font-medium hover:underline">
+              <Link href="/login" className="text-violet-600 font-semibold hover:text-violet-700 hover:underline">
                 Sign in
               </Link>
-            </p>
+            </div>
           </form>
         )}
       </div>

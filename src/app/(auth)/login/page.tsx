@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
-import { Eye, EyeOff, Loader2, Zap } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Lock, Sparkles, CheckCircle2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   async function handleMagicLink() {
     if (!email) {
-      setError("Please enter your email first.");
+      setError("Please enter your email first to receive a magic link.");
       return;
     }
     setMagicLoading(true);
@@ -53,67 +53,75 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      {/* Card */}
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-xl text-slate-900">AutomateAI<span className="text-[#F56962]">.</span></span>
-          </Link>
-          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-          <p className="text-slate-500 mt-1 text-sm">Sign in to your dashboard</p>
+    <div className="w-full">
+      <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200/80 p-7 sm:p-9">
+        <div className="mb-7">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Welcome back
+          </h1>
+          <p className="text-slate-500 mt-2 text-sm">
+            Sign in to access your AI agency portal and workflows.
+          </p>
         </div>
 
         {magicSent ? (
           <div className="text-center py-6">
-            <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
+            <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4 text-violet-600">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-900 mb-2">Check your email</h2>
-            <p className="text-slate-500 text-sm">We sent a magic link to <strong>{email}</strong>. Click it to sign in.</p>
-            <button onClick={() => setMagicSent(false)} className="mt-4 text-violet-600 text-sm font-medium hover:underline">
-              Try again
+            <h2 className="text-lg font-bold text-slate-900 mb-2">Check your email</h2>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              We sent a secure login link to <strong className="text-slate-900 font-semibold">{email}</strong>. Click the link in the email to sign in directly.
+            </p>
+            <button
+              onClick={() => setMagicSent(false)}
+              className="mt-5 text-violet-600 text-sm font-semibold hover:underline"
+            >
+              Use password instead
             </button>
           </div>
         ) : (
           <form onSubmit={handleLogin} className="space-y-4">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-                {error}
+              <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm flex items-start gap-2.5">
+                <span className="shrink-0 mt-0.5 text-base">⚠️</span>
+                <span>{error}</span>
               </div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Email address
+              <label htmlFor="email" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+                Email Address
               </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
-                className="w-full px-4 py-3 h-12 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@company.com"
+                  className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-violet-600 focus:bg-white focus:ring-4 focus:ring-violet-500/10 transition-all"
+                />
+              </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label htmlFor="password" className="block text-sm font-medium text-slate-700">
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="password" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
                   Password
                 </label>
-                <Link href="/forgot-password" className="text-xs text-violet-600 hover:underline">
+                <Link href="/forgot-password" className="text-xs text-violet-600 hover:text-violet-700 font-semibold hover:underline">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Lock className="w-4 h-4" />
+                </div>
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -121,12 +129,13 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 pr-10 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all text-sm"
+                  className="w-full h-12 pl-10 pr-11 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-violet-600 focus:bg-white focus:ring-4 focus:ring-violet-500/10 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -137,17 +146,19 @@ export default function LoginPage() {
               type="submit"
               disabled={loading}
               id="login-submit-btn"
-              className="w-full bg-[#F56962] hover:bg-[#e05a53] text-white font-semibold py-3 h-12 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm mt-2"
+              className="w-full h-12 bg-gradient-to-r from-[#F56962] to-[#fa7c76] hover:from-[#e05a53] hover:to-[#f56962] text-white font-semibold rounded-xl shadow-lg shadow-[#F56962]/25 hover:shadow-xl hover:shadow-[#F56962]/35 active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-sm mt-2 disabled:opacity-60 cursor-pointer"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Signing in..." : "Sign in to Dashboard"}
             </button>
 
             <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-slate-200" />
               </div>
-              <div className="relative flex justify-center text-xs text-slate-400 bg-white px-3">or</div>
+              <div className="relative flex justify-center text-xs uppercase tracking-wider text-slate-400 bg-white px-3">
+                or continue with
+              </div>
             </div>
 
             <button
@@ -155,22 +166,20 @@ export default function LoginPage() {
               onClick={handleMagicLink}
               disabled={magicLoading}
               id="magic-link-btn"
-              className="w-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium py-3 h-12 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+              className="w-full h-12 border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-semibold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-60 cursor-pointer"
             >
               {magicLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+                <Sparkles className="w-4 h-4 text-violet-600" />
               )}
-              {magicLoading ? "Sending..." : "Sign in with Magic Link"}
+              {magicLoading ? "Sending magic link..." : "Sign in with Magic Link"}
             </button>
 
-            <p className="text-center text-sm text-slate-500 mt-4">
+            <div className="pt-2 text-center text-sm text-slate-600">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-violet-600 font-medium hover:underline">
-                Create one
+              <Link href="/register" className="text-violet-600 font-semibold hover:text-violet-700 hover:underline">
+                Create free account
               </Link>
-            </p>
+            </div>
           </form>
         )}
       </div>
