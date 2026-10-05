@@ -1,79 +1,39 @@
 import type { Metadata } from "next";
-import {
-  CheckCircle2,
-  Clock,
-  AlertCircle,
-  Download,
-  CreditCard,
-  DollarSign,
-  FileText,
-} from "lucide-react";
+import { CheckCircle2, Clock, AlertCircle, DollarSign, FileText } from "lucide-react";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
+import InvoicesList from "@/components/dashboard/InvoicesList";
 
 export const metadata: Metadata = { title: "Invoices & Billing" };
 
-const invoices = [
-  {
-    id: "INV-2024-008",
-    description: "AI Chatbot Integration — Milestone 2",
-    order: "ORD-2024-007",
-    amount: "$900",
-    amountNum: 900,
-    status: "unpaid",
-    issued: "Oct 3, 2024",
-    due: "Oct 10, 2024",
-  },
-  {
-    id: "INV-2024-006",
-    description: "AI Chatbot Integration — Initial Deposit (50%)",
-    order: "ORD-2024-007",
-    amount: "$900",
-    amountNum: 900,
-    status: "paid",
-    issued: "Sep 28, 2024",
-    due: "Sep 28, 2024",
-  },
-  {
-    id: "INV-2024-004",
-    description: "Workflow Automation — Project Start",
-    order: "ORD-2024-005",
-    amount: "$700",
-    amountNum: 700,
-    status: "paid",
-    issued: "Oct 1, 2024",
-    due: "Oct 1, 2024",
-  },
-  {
-    id: "INV-2024-003",
-    description: "Data Pipeline — Full Project Payment",
-    order: "ORD-2024-003",
-    amount: "$2,200",
-    amountNum: 2200,
-    status: "paid",
-    issued: "Sep 25, 2024",
-    due: "Sep 25, 2024",
-  },
-  {
-    id: "INV-2024-002",
-    description: "Strategy Consultation — 2 hours",
-    order: "—",
-    amount: "$300",
-    amountNum: 300,
-    status: "overdue",
-    issued: "Sep 15, 2024",
-    due: "Sep 22, 2024",
-  },
-];
+export default async function InvoicesPage() {
+  const supabase = await createServerSupabaseClient();
 
-const statusConfig: Record<string, { label: string; className: string; icon: React.ElementType }> = {
-  paid: { label: "Paid", className: "bg-emerald-100 text-emerald-700", icon: CheckCircle2 },
-  unpaid: { label: "Unpaid", className: "bg-amber-100 text-amber-700", icon: Clock },
-  overdue: { label: "Overdue", className: "bg-red-100 text-red-600", icon: AlertCircle },
-};
+  // Current logged-in user নিই
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-const totalPaid = invoices.filter((i) => i.status === "paid").reduce((a, c) => a + c.amountNum, 0);
-const totalDue = invoices.filter((i) => i.status !== "paid").reduce((a, c) => a + c.amountNum, 0);
+  // User-এর invoices DB থেকে fetch করি
+  let invoices: Invoice[] = [];
+  if (user) {
+    const { data } = await supabase
+      .from("invoices")
+      .select("*")
+      .eq("client_id", user.id)
+      .order("created_at", { ascending: false });
 
-export default function InvoicesPage() {
+    invoices = (data as Invoice[]) || [];
+  }
+
+  // Summary calculations
+  const totalPaid = invoices
+    .filter((i) => i.status === "paid")
+    .reduce((a, c) => a + Number(c.amount), 0);
+  const totalDue = invoices
+    .filter((i) => i.status !== "paid" && i.status !== "cancelled")
+    .reduce((a, c) => a + Number(c.amount), 0);
+  const totalInvoiced = totalPaid + totalDue;
+
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
@@ -93,6 +53,7 @@ export default function InvoicesPage() {
           </div>
           <div className="text-2xl font-bold text-slate-900">${totalPaid.toLocaleString()}</div>
         </div>
+
         <div className="bg-white rounded-2xl border border-slate-100 p-5">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center">
@@ -102,6 +63,7 @@ export default function InvoicesPage() {
           </div>
           <div className="text-2xl font-bold text-slate-900">${totalDue.toLocaleString()}</div>
         </div>
+
         <div className="bg-white rounded-2xl border border-slate-100 p-5">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-9 h-9 bg-violet-50 rounded-xl flex items-center justify-center">
@@ -109,70 +71,43 @@ export default function InvoicesPage() {
             </div>
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Invoiced</span>
           </div>
-          <div className="text-2xl font-bold text-slate-900">${(totalPaid + totalDue).toLocaleString()}</div>
+          <div className="text-2xl font-bold text-slate-900">${totalInvoiced.toLocaleString()}</div>
         </div>
       </div>
 
-      {/* Invoices Table */}
+      {/* Invoices Table — Client Component (handles Pay Now click) */}
       <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <h2 className="font-semibold text-slate-900 text-sm">All Invoices</h2>
           <span className="text-xs text-slate-400">{invoices.length} invoices</span>
         </div>
 
-        {/* Mobile + Desktop List */}
-        <div className="divide-y divide-slate-100">
-          {invoices.map((inv) => {
-            const sc = statusConfig[inv.status];
-            const needsPayment = inv.status === "unpaid" || inv.status === "overdue";
-            return (
-              <div
-                key={inv.id}
-                className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50/70 transition-colors flex-wrap sm:flex-nowrap"
-              >
-                {/* Icon */}
-                <div className="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-4 h-4 text-slate-500" />
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm font-semibold text-slate-900 font-mono">{inv.id}</span>
-                    <span className={`flex items-center gap-1 text-xs font-medium px-2.5 py-0.5 rounded-full ${sc.className}`}>
-                      <sc.icon className="w-3 h-3" />
-                      {sc.label}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-0.5 truncate">{inv.description}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">Due: {inv.due}</p>
-                </div>
-
-                {/* Amount */}
-                <div className="text-right flex-shrink-0">
-                  <div className="text-base font-bold text-slate-900">{inv.amount}</div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <button
-                    className="p-2 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
-                    title="Download PDF"
-                  >
-                    <Download className="w-4 h-4" />
-                  </button>
-                  {needsPayment && (
-                    <button className="flex items-center gap-1.5 bg-[#F56962] hover:bg-[#e05a53] text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap">
-                      <CreditCard className="w-3.5 h-3.5" />
-                      Pay Now
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {invoices.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center px-6">
+            <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+              <FileText className="w-7 h-7 text-slate-400" />
+            </div>
+            <p className="font-semibold text-slate-700">কোনো invoice নেই</p>
+            <p className="text-sm text-slate-400 mt-1">আপনার প্রথম invoice তৈরি হলে এখানে দেখা যাবে।</p>
+          </div>
+        ) : (
+          <InvoicesList invoices={invoices} />
+        )}
       </div>
     </div>
   );
+}
+
+export interface Invoice {
+  id: string;
+  invoice_number: string;
+  description: string;
+  amount: number;
+  currency: string;
+  status: "draft" | "sent" | "unpaid" | "paid" | "overdue" | "cancelled";
+  due_date: string | null;
+  paid_at: string | null;
+  created_at: string;
+  order_id: string | null;
+  notes: string | null;
 }
