@@ -217,14 +217,7 @@ export default function AuthLayout({
         </div>
       </div>
 
-      <style jsx>{`
-        .auth-left-panel { display: flex; }
-        .auth-mobile-logo { display: none !important; }
-        @media (max-width: 1023px) {
-          .auth-left-panel { display: none !important; }
-          .auth-mobile-logo { display: block !important; }
-        }
-      `}</style>
+      
     </div>
   );
 }

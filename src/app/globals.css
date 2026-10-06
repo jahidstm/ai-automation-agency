@@ -485,3 +485,21 @@ a:hover {
     @apply font-sans;
   }
 }
+/* ============================================================
+   AUTH LAYOUT RESPONSIVE UTILITIES
+   ============================================================ */
+.auth-left-panel {
+  display: flex !important;
+}
+.auth-mobile-logo {
+  display: none !important;
+}
+
+@media (max-width: 1023px) {
+  .auth-left-panel {
+    display: none !important;
+  }
+  .auth-mobile-logo {
+    display: block !important;
+  }
+}
