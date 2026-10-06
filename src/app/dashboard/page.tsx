@@ -22,7 +22,6 @@ const stats = [
     icon: ShoppingBag,
     trend: "+1 this month",
     trendUp: true,
-    color: "from-violet-500 to-violet-700",
     bg: "bg-violet-50",
     iconColor: "text-violet-600",
   },
@@ -32,7 +31,6 @@ const stats = [
     icon: DollarSign,
     trend: "Lifetime value",
     trendUp: true,
-    color: "from-[#F56962] to-orange-500",
     bg: "bg-red-50",
     iconColor: "text-[#F56962]",
   },
@@ -42,7 +40,6 @@ const stats = [
     icon: FolderOpen,
     trend: "3 new this week",
     trendUp: true,
-    color: "from-emerald-500 to-teal-600",
     bg: "bg-emerald-50",
     iconColor: "text-emerald-600",
   },
@@ -52,7 +49,6 @@ const stats = [
     icon: MessageSquare,
     trend: "Reply needed",
     trendUp: false,
-    color: "from-amber-500 to-orange-500",
     bg: "bg-amber-50",
     iconColor: "text-amber-600",
   },
@@ -75,24 +71,28 @@ const recentActivity = [
 
 export default function DashboardOverviewPage() {
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="flex flex-col gap-6 w-full">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-[#0C344A] to-violet-900 rounded-2xl p-6 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }}
+      <div className="bg-gradient-to-r from-[#0C344A] via-[#162742] to-[#2E1A47] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden shadow-sm">
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
         />
-        <div className="relative flex items-center justify-between flex-wrap gap-4">
+        <div className="relative flex items-center justify-between flex-wrap gap-4 z-10">
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-2">
               <Zap className="w-4 h-4 text-[#F56962]" />
-              <span className="text-xs text-white/60 uppercase tracking-wider">Client Portal</span>
+              <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">Client Portal</span>
             </div>
-            <h1 className="text-2xl font-bold mb-1">Welcome back, Jahid! 👋</h1>
-            <p className="text-white/70 text-sm">You have 2 active projects and 3 unread messages.</p>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white">Welcome back, Jahid! 👋</h1>
+            <p className="text-white/80 text-sm md:text-base">You have 2 active projects and 3 unread messages.</p>
           </div>
           <a
             href="/dashboard/messages"
-            className="flex items-center gap-2 bg-[#F56962] hover:bg-[#e05a53] text-white px-4 py-2 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap"
+            className="flex items-center gap-2 bg-[#F56962] hover:bg-[#e05a53] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow whitespace-nowrap"
           >
             View Messages <ArrowRight className="w-4 h-4" />
           </a>
@@ -100,9 +100,12 @@ export default function DashboardOverviewPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-white rounded-2xl border border-slate-100 p-5 hover:shadow-md transition-shadow">
+          <div
+            key={stat.label}
+            className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition-all"
+          >
             <div className="flex items-start justify-between mb-3">
               <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center`}>
                 <stat.icon className={`w-5 h-5 ${stat.iconColor}`} />
@@ -113,7 +116,7 @@ export default function DashboardOverviewPage() {
               </span>
             </div>
             <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-            <div className="text-xs text-slate-500 mt-0.5">{stat.label}</div>
+            <div className="text-xs text-slate-500 mt-1">{stat.label}</div>
           </div>
         ))}
       </div>
@@ -121,8 +124,8 @@ export default function DashboardOverviewPage() {
       {/* Active Order + Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Active Order - Milestone Tracker */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 p-6">
-          <div className="flex items-center justify-between mb-5">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
             <div>
               <h2 className="font-semibold text-slate-900 text-base">Active Order</h2>
               <p className="text-xs text-slate-500 mt-0.5">AI Chatbot Integration — Order #ORD-2024-007</p>
@@ -131,10 +134,10 @@ export default function DashboardOverviewPage() {
           </div>
 
           {/* Progress Bar */}
-          <div className="mb-5">
+          <div className="mb-6">
             <div className="flex justify-between text-xs text-slate-500 mb-1.5">
               <span>Overall Progress</span>
-              <span className="font-medium text-violet-600">40%</span>
+              <span className="font-semibold text-violet-600">40%</span>
             </div>
             <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
               <div className="h-full w-[40%] bg-gradient-to-r from-violet-500 to-violet-600 rounded-full" />
@@ -142,15 +145,15 @@ export default function DashboardOverviewPage() {
           </div>
 
           {/* Milestones */}
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             {milestones.map((m, i) => (
-              <div key={i} className="flex items-start gap-3">
+              <div key={i} className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
                 <div className="mt-0.5 flex-shrink-0">
                   {m.status === "done" && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
                   {m.status === "active" && <AlertCircle className="w-5 h-5 text-violet-500 animate-pulse" />}
                   {m.status === "pending" && <Circle className="w-5 h-5 text-slate-300" />}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <span className={`text-sm font-medium ${
                       m.status === "done" ? "text-slate-400 line-through" :
@@ -165,17 +168,19 @@ export default function DashboardOverviewPage() {
             ))}
           </div>
 
-          <a href="/dashboard/orders" className="mt-5 flex items-center gap-1.5 text-sm text-violet-600 font-medium hover:underline">
-            View full order details <ArrowRight className="w-4 h-4" />
-          </a>
+          <div className="mt-6 pt-4 border-t border-slate-100">
+            <a href="/dashboard/orders" className="inline-flex items-center gap-1.5 text-sm text-violet-600 font-semibold hover:underline">
+              View full order details <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-2xl border border-slate-100 p-6">
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
           <h2 className="font-semibold text-slate-900 text-base mb-5">Recent Activity</h2>
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {recentActivity.map((item, i) => (
-              <div key={i} className="flex items-start gap-3">
+              <div key={i} className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${item.color}`}>
                   <item.icon className="w-4 h-4" />
                 </div>

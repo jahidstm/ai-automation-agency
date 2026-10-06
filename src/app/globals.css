@@ -214,8 +214,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  
 }
 
 html {
@@ -232,12 +231,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Headings use Poppins */
-h1, h2, h3, h4, h5, h6 {
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--navy-deep);
   line-height: 1.2;
   font-weight: 700;
+  }
 }
 
 /* Links */

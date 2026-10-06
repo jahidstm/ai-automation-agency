@@ -4,7 +4,6 @@ import {
   Clock,
   Circle,
   AlertCircle,
-  ChevronDown,
   ExternalLink,
   ArrowRight,
 } from "lucide-react";
@@ -78,54 +77,59 @@ function MilestoneIcon({ status }: { status: string }) {
 
 export default function OrdersPage() {
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="flex flex-col gap-6 w-full">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-xl font-bold text-slate-900">My Orders</h1>
-          <p className="text-sm text-slate-500 mt-0.5">Track all your project orders and deliveries</p>
+          <h1 className="text-xl md:text-2xl font-bold text-slate-900">My Orders</h1>
+          <p className="text-sm text-slate-500 mt-1">Track all your project orders, progress, and deliverables</p>
         </div>
-        <span className="bg-slate-100 text-slate-600 text-sm font-medium px-3 py-1.5 rounded-xl">
+        <span className="bg-white border border-slate-200 text-slate-700 text-sm font-semibold px-3.5 py-1.5 rounded-xl shadow-sm">
           {orders.length} orders
         </span>
       </div>
 
       {/* Orders List */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-5">
         {orders.map((order) => {
           const sc = statusConfig[order.status];
           return (
-            <div key={order.id} className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-md transition-shadow">
+            <div
+              key={order.id}
+              className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden hover:shadow-md transition-all"
+            >
               {/* Order Header */}
-              <div className="p-5">
-                <div className="flex items-start justify-between gap-3 flex-wrap">
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-xs font-mono text-slate-400">{order.id}</span>
+                    <div className="flex items-center gap-2.5 flex-wrap mb-2">
+                      <span className="text-xs font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                        {order.id}
+                      </span>
                       <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${sc.className}`}>
                         {sc.label}
                       </span>
                     </div>
-                    <h3 className="text-base font-semibold text-slate-900">{order.title}</h3>
+                    <h3 className="text-lg font-bold text-slate-900">{order.title}</h3>
                     <p className="text-sm text-slate-500 mt-0.5">{order.service}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <div className="text-lg font-bold text-slate-900">{order.amount}</div>
-                    <div className="text-xs text-slate-400 flex items-center justify-end gap-1 mt-0.5">
-                      <Clock className="w-3 h-3" />Due {order.dueDate}
+                    <div className="text-xl font-bold text-slate-900">{order.amount}</div>
+                    <div className="text-xs text-slate-500 flex items-center justify-end gap-1 mt-1">
+                      <Clock className="w-3.5 h-3.5 text-slate-400" /> Due {order.dueDate}
                     </div>
                   </div>
                 </div>
 
                 {/* Progress */}
-                <div className="mt-4">
-                  <div className="flex justify-between text-xs text-slate-500 mb-1.5">
-                    <span>Progress</span>
+                <div className="mt-5">
+                  <div className="flex justify-between text-xs text-slate-500 mb-2">
+                    <span className="font-medium">Progress</span>
                     <span className={`font-semibold ${order.progress === 100 ? "text-emerald-600" : "text-violet-600"}`}>
                       {order.progress}%
                     </span>
                   </div>
-                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${order.progress === 100 ? "bg-emerald-500" : "bg-gradient-to-r from-violet-500 to-violet-600"}`}
                       style={{ width: `${order.progress}%` }}
@@ -135,27 +139,27 @@ export default function OrdersPage() {
               </div>
 
               {/* Milestones */}
-              <div className="border-t border-slate-100 px-5 py-4 bg-slate-50/50">
+              <div className="border-t border-slate-100 px-6 py-5 bg-slate-50/70">
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Milestones</p>
-                <div className="space-y-2.5">
+                <div className="flex flex-col gap-2.5">
                   {order.milestones.map((m, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
+                    <div key={i} className="flex items-center gap-3">
                       <MilestoneIcon status={m.status} />
                       <span className={`text-sm flex-1 ${
                         m.status === "done" ? "text-slate-400 line-through" :
-                        m.status === "active" ? "text-slate-900 font-medium" : "text-slate-400"
+                        m.status === "active" ? "text-slate-900 font-semibold" : "text-slate-400"
                       }`}>{m.label}</span>
-                      <span className="text-xs text-slate-400">{m.date}</span>
+                      <span className="text-xs text-slate-400 font-medium">{m.date}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Footer actions */}
-              <div className="border-t border-slate-100 px-5 py-3 flex items-center justify-between bg-white">
-                <span className="text-xs text-slate-400">Started {order.startDate}</span>
-                <div className="flex gap-3">
-                  <a href="/dashboard/messages" className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 transition-colors">
+              <div className="border-t border-slate-100 px-6 py-3.5 flex items-center justify-between bg-white">
+                <span className="text-xs text-slate-500">Started {order.startDate}</span>
+                <div className="flex gap-4">
+                  <a href="/dashboard/messages" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors">
                     <ExternalLink className="w-3.5 h-3.5" /> Message Us
                   </a>
                   <a href="/dashboard/files" className="flex items-center gap-1.5 text-xs font-semibold text-violet-600 hover:text-violet-800 transition-colors">

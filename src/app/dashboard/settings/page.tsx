@@ -31,7 +31,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="flex flex-col gap-6 max-w-4xl">
       <div>
         <h1 className="text-xl font-bold text-slate-900">Profile & Settings</h1>
         <p className="text-sm text-slate-500 mt-0.5">Manage your account preferences</p>
@@ -57,7 +57,7 @@ export default function SettingsPage() {
 
       {/* Profile Tab */}
       {activeTab === "profile" && (
-        <div className="bg-white rounded-2xl border border-slate-100 p-6 space-y-6">
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-6">
           {/* Avatar */}
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-white text-2xl font-bold">
