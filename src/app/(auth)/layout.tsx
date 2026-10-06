@@ -13,121 +13,218 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen w-full bg-slate-50 flex flex-col lg:flex-row">
-      {/* Left Column: Visual & Value Proposition (Desktop only) */}
-      <div className="hidden lg:flex lg:w-1/2 xl:w-[48%] relative bg-gradient-to-br from-[#0c0620] via-[#1a0f3d] to-[#080315] text-white p-12 xl:p-16 flex-col justify-between overflow-hidden border-r border-slate-800">
-        {/* Ambient Glowing Orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-violet-600/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#F56962]/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+    <div style={{ minHeight: "100vh", width: "100%", display: "flex" }}>
+      {/* Left Column — Dark Visual Panel (Desktop only) */}
+      <div
+        className="auth-left-panel"
+        style={{
+          width: "48%",
+          minHeight: "100vh",
+          background: "linear-gradient(160deg, #0c0620 0%, #1a0f3d 50%, #080315 100%)",
+          color: "#fff",
+          padding: "48px 56px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflow: "hidden",
+          position: "relative",
+          borderRight: "1px solid rgba(255,255,255,0.05)",
+        }}
+      >
+        {/* Ambient Orbs */}
+        <div style={{
+          position: "absolute", top: "-120px", left: "-100px",
+          width: "420px", height: "420px",
+          background: "rgba(99,71,251,0.22)", borderRadius: "50%", filter: "blur(80px)",
+          pointerEvents: "none",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "-100px", right: "-80px",
+          width: "360px", height: "360px",
+          background: "rgba(245,105,98,0.18)", borderRadius: "50%", filter: "blur(80px)",
+          pointerEvents: "none",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          pointerEvents: "none",
+        }} />
 
-        {/* Brand Logo Header */}
-        <div className="relative z-10">
-          <Link href="/" className="inline-flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-[#F56962] p-0.5 flex items-center justify-center shadow-lg shadow-violet-500/20 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-[#0D0722] rounded-[10px] flex items-center justify-center">
-                <Zap className="w-5 h-5 text-[#F56962]" />
-              </div>
+        {/* Logo */}
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
+            <div style={{
+              width: "42px", height: "42px", borderRadius: "12px",
+              background: "linear-gradient(135deg, #6347FB 0%, #F56962 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 8px 24px rgba(99,71,251,0.35)",
+            }}>
+              <Zap size={22} color="#fff" strokeWidth={2.5} />
             </div>
-            <span className="font-bold text-2xl tracking-tight text-white">
-              AutomateAI<span className="text-[#F56962]">.</span>
+            <span style={{ fontWeight: 800, fontSize: "1.35rem", color: "#fff", letterSpacing: "-0.02em" }}>
+              AutomateAI<span style={{ color: "#F56962" }}>.</span>
             </span>
           </Link>
         </div>
 
         {/* Center Content */}
-        <div className="relative z-10 my-auto py-8 max-w-lg">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-300 text-xs font-semibold uppercase tracking-wider mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-[#F56962]" /> Enterprise AI Platform
+        <div style={{ position: "relative", zIndex: 2, maxWidth: "440px" }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            padding: "6px 14px", borderRadius: "100px",
+            background: "rgba(99,71,251,0.18)", border: "1px solid rgba(99,71,251,0.3)",
+            color: "#a78bfa", fontSize: "0.72rem", fontWeight: 700,
+            textTransform: "uppercase", letterSpacing: "0.08em",
+            marginBottom: "24px",
+          }}>
+            <Sparkles size={13} style={{ color: "#F56962" }} />
+            Enterprise AI Platform
           </div>
-          <h2 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-4 tracking-tight">
-            Autonomous operations built for modern growth.
+
+          <h2 style={{
+            fontSize: "2.15rem", fontWeight: 800, lineHeight: 1.18,
+            color: "#fff", letterSpacing: "-0.03em", marginBottom: "16px",
+          }}>
+            Autonomous operations<br />
+            <span style={{ color: "#a78bfa" }}>built for modern growth.</span>
           </h2>
-          <p className="text-slate-300 text-base leading-relaxed mb-8">
+          <p style={{
+            color: "rgba(255,255,255,0.55)", fontSize: "0.95rem",
+            lineHeight: 1.7, marginBottom: "32px",
+          }}>
             Manage your AI agents, review automated workflow runs, and monitor live ROI metrics from a single dashboard.
           </p>
 
-          {/* Value Badges */}
-          <div className="space-y-3.5">
-            <div className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm">
-              <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <Zap className="w-4 h-4 text-violet-400" />
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {[
+              { icon: Zap, color: "rgba(99,71,251,0.2)", iconColor: "#a78bfa", title: "Autonomous 24/7 Execution", desc: "Custom AI agents handling client support, data analysis & operations." },
+              { icon: ShieldCheck, color: "rgba(16,185,129,0.15)", iconColor: "#6ee7b7", title: "Bank-Grade Data Security", desc: "Row-level security, encrypted secrets & granular role permissions." },
+              { icon: BarChart3, color: "rgba(245,105,98,0.15)", iconColor: "#fca5a5", title: "Real-Time ROI Analytics", desc: "Transparent token metrics, execution logs & cost monitoring." },
+            ].map(({ icon: Icon, color, iconColor, title, desc }) => (
+              <div key={title} style={{
+                display: "flex", alignItems: "flex-start", gap: "14px",
+                padding: "14px 16px", borderRadius: "12px",
+                background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)",
+                backdropFilter: "blur(8px)",
+              }}>
+                <div style={{
+                  width: "36px", height: "36px", borderRadius: "10px",
+                  background: color, display: "flex", alignItems: "center",
+                  justifyContent: "center", flexShrink: 0, marginTop: "1px",
+                }}>
+                  <Icon size={17} style={{ color: iconColor }} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "0.875rem", color: "#fff", marginBottom: "3px" }}>{title}</div>
+                  <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.5 }}>{desc}</div>
+                </div>
               </div>
-              <div>
-                <h4 className="text-sm font-semibold text-white">Autonomous 24/7 Execution</h4>
-                <p className="text-xs text-slate-400 mt-0.5">Custom AI agents handling client support, data analysis & operations.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-white">Bank-Grade Data Security</h4>
-                <p className="text-xs text-slate-400 mt-0.5">Row-level security, encrypted secrets & granular role permissions.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm">
-              <div className="w-8 h-8 rounded-lg bg-[#F56962]/20 flex items-center justify-center shrink-0 mt-0.5">
-                <BarChart3 className="w-4 h-4 text-[#F56962]" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-white">Real-Time Cost & ROI Analytics</h4>
-                <p className="text-xs text-slate-400 mt-0.5">Transparent token metrics, execution logs & cost monitoring.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Social Proof Footer */}
-        <div className="relative z-10 pt-6 border-t border-white/10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-500 to-[#F56962] flex items-center justify-center text-white font-bold text-sm shadow">
-            JD
-          </div>
+        {/* Testimonial Footer */}
+        <div style={{
+          position: "relative", zIndex: 2,
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          paddingTop: "20px",
+          display: "flex", alignItems: "center", gap: "14px",
+        }}>
+          <div style={{
+            width: "42px", height: "42px", borderRadius: "50%",
+            background: "linear-gradient(135deg, #6347FB, #F56962)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: "#fff", fontWeight: 800, fontSize: "0.85rem",
+            flexShrink: 0,
+          }}>JD</div>
           <div>
-            <div className="flex items-center gap-1 text-amber-400 text-xs mb-0.5">
-              {"★★★★★"}
-            </div>
-            <p className="text-xs text-slate-300">
-              &ldquo;Cut manual operational overhead by 70% in the first 30 days.&rdquo;
+            <div style={{ color: "#F59E0B", fontSize: "0.75rem", marginBottom: "3px" }}>★★★★★</div>
+            <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.6)", margin: 0, lineHeight: 1.5 }}>
+              "Cut manual operational overhead by 70% in the first 30 days."
             </p>
-            <p className="text-[11px] text-slate-400 font-medium">
+            <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", margin: "3px 0 0", fontWeight: 600 }}>
               Enterprise Operations Leader
             </p>
           </div>
         </div>
       </div>
 
-      {/* Right Column: Auth Form */}
-      <div className="w-full lg:w-1/2 xl:w-[52%] min-h-screen bg-slate-50 flex flex-col justify-between p-6 sm:p-10 lg:p-12 relative overflow-y-auto">
-        {/* Top Header */}
-        <div className="w-full max-w-md mx-auto flex items-center justify-between pb-4">
+      {/* Right Column — Auth Form */}
+      <div style={{
+        flex: 1,
+        minHeight: "100vh",
+        background: "#F8FAFC",
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "auto",
+      }}>
+        {/* Top Nav */}
+        <div style={{
+          padding: "16px 32px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #E2E8F0",
+          background: "#fff",
+          flexShrink: 0,
+        }}>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors py-1.5 px-3 rounded-lg hover:bg-slate-200/60"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: "7px",
+              fontSize: "0.82rem", fontWeight: 600,
+              color: "#64748B", textDecoration: "none",
+              padding: "7px 12px", borderRadius: "8px",
+              border: "1px solid #E2E8F0",
+              background: "#F8FAFC",
+              transition: "all 0.2s",
+            }}
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft size={13} />
             Back to website
           </Link>
-          <div className="lg:hidden">
-            <Link href="/" className="font-bold text-lg text-slate-900">
-              AutomateAI<span className="text-[#F56962]">.</span>
+          <div className="auth-mobile-logo" style={{ display: "none" }}>
+            <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#0C344A", textDecoration: "none" }}>
+              AutomateAI<span style={{ color: "#F56962" }}>.</span>
             </Link>
           </div>
         </div>
 
-        {/* Center Content */}
-        <div className="w-full max-w-md mx-auto my-auto py-4">
-          {children}
+        {/* Form Area */}
+        <div style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "40px 24px",
+        }}>
+          <div style={{ width: "100%", maxWidth: "440px" }}>
+            {children}
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="w-full max-w-md mx-auto pt-4 text-center text-xs text-slate-400">
+        <div style={{
+          padding: "16px 24px",
+          textAlign: "center",
+          fontSize: "0.75rem",
+          color: "#94A3B8",
+          borderTop: "1px solid #E2E8F0",
+          flexShrink: 0,
+        }}>
           © {new Date().getFullYear()} AutomateAI Agency. All rights reserved.
         </div>
       </div>
+
+      <style jsx>{`
+        .auth-left-panel { display: flex; }
+        .auth-mobile-logo { display: none !important; }
+        @media (max-width: 1023px) {
+          .auth-left-panel { display: none !important; }
+          .auth-mobile-logo { display: block !important; }
+        }
+      `}</style>
     </div>
   );
 }

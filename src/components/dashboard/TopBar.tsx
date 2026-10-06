@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { Menu, Search, X } from "lucide-react";
+import { Menu, Search, X, Zap, LogOut } from "lucide-react";
 import NotificationBell from "@/components/dashboard/NotificationBell";
 import { useState } from "react";
 import Link from "next/link";
@@ -12,8 +12,6 @@ import {
   FileText,
   MessageSquare,
   Settings,
-  Zap,
-  LogOut,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
@@ -55,32 +53,101 @@ export default function TopBar() {
   return (
     <>
       {/* Top Bar */}
-      <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
-        {/* Left: Mobile menu + Page title */}
-        <div className="flex items-center gap-3">
+      <header style={{
+        height: "64px",
+        background: "#fff",
+        borderBottom: "1px solid #E2E8F0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 1.25rem 0 1rem",
+        position: "sticky",
+        top: 0,
+        zIndex: 20,
+        flexShrink: 0,
+      }}>
+        {/* Left */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <button
-            className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100"
+            className="topbar-mobile-btn"
             onClick={() => setMobileOpen(true)}
+            style={{
+              background: "none",
+              border: "none",
+              padding: "6px",
+              borderRadius: "8px",
+              color: "#64748B",
+              cursor: "pointer",
+              display: "none",
+            }}
           >
-            <Menu className="w-5 h-5" />
+            <Menu size={20} />
           </button>
-          <div>
-            <h2 className="text-base font-semibold text-slate-900">{title}</h2>
+
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}>
+            <div style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #6347FB, #F56962)",
+              boxShadow: "0 0 8px rgba(99,71,251,0.5)",
+            }} />
+            <h2 style={{
+              fontWeight: 700,
+              fontSize: "1.025rem",
+              color: "#0C344A",
+              margin: 0,
+              letterSpacing: "-0.01em",
+            }}>
+              {title}
+            </h2>
           </div>
         </div>
 
-        {/* Right: Search + Notifications + Avatar */}
-        <div className="flex items-center gap-2">
-          <button className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-400 text-sm hover:bg-slate-100 transition-colors">
-            <Search className="w-3.5 h-3.5" />
-            <span className="text-xs">Search...</span>
+        {/* Right */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {/* Search */}
+          <button style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "7px 14px",
+            background: "#F8FAFC",
+            border: "1px solid #E2E8F0",
+            borderRadius: "10px",
+            color: "#94A3B8",
+            fontSize: "0.8125rem",
+            cursor: "pointer",
+            transition: "all 0.2s",
+          }}
+            className="search-btn-desktop"
+          >
+            <Search size={13} />
+            <span>Search...</span>
           </button>
 
-          {/* Notifications */}
           <NotificationBell />
 
-          {/* User Avatar */}
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-white text-xs font-bold cursor-pointer select-none">
+          {/* Avatar */}
+          <div style={{
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            background: "linear-gradient(135deg, #6347FB 0%, #F56962 100%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#fff",
+            fontSize: "0.8rem",
+            fontWeight: 700,
+            cursor: "pointer",
+            boxShadow: "0 4px 12px rgba(99,71,251,0.3)",
+            flexShrink: 0,
+          }}>
             J
           </div>
         </div>
@@ -88,26 +155,59 @@ export default function TopBar() {
 
       {/* Mobile Sidebar Overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 flex md:hidden">
+        <div style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex" }}>
           <div
-            className="absolute inset-0 bg-black/40"
+            style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(3px)" }}
             onClick={() => setMobileOpen(false)}
           />
-          <aside className="relative w-[250px] h-full bg-white flex flex-col shadow-2xl">
-            <div className="flex items-center justify-between px-4 h-16 border-b border-slate-100">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center">
-                  <Zap className="w-4 h-4 text-white" />
+          <aside style={{
+            position: "relative",
+            width: "260px",
+            height: "100%",
+            background: "linear-gradient(180deg, #0C1929 0%, #0d1f35 100%)",
+            display: "flex",
+            flexDirection: "column",
+            boxShadow: "4px 0 32px rgba(0,0,0,0.4)",
+          }}>
+            {/* Header */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "0 16px",
+              height: "64px",
+              borderBottom: "1px solid rgba(255,255,255,0.07)",
+            }}>
+              <Link href="/" onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+                <div style={{
+                  width: "30px", height: "30px", borderRadius: "8px",
+                  background: "linear-gradient(135deg, #6347FB, #F56962)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <Zap size={15} color="#fff" strokeWidth={2.5} />
                 </div>
-                <span className="font-bold text-base text-slate-900">
-                  AutomateAI<span className="text-[#F56962]">.</span>
+                <span style={{ fontWeight: 700, color: "#fff", fontSize: "0.95rem" }}>
+                  AutomateAI<span style={{ color: "#F56962" }}>.</span>
                 </span>
               </Link>
-              <button onClick={() => setMobileOpen(false)} className="p-1 rounded-lg text-slate-400 hover:bg-slate-100">
-                <X className="w-5 h-5" />
+              <button
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  background: "rgba(255,255,255,0.07)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "7px",
+                  color: "#fff",
+                  width: "32px", height: "32px",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={16} />
               </button>
             </div>
-            <nav className="flex-1 px-3 py-4 space-y-1">
+
+            {/* Nav */}
+            <nav style={{ flex: 1, padding: "12px 10px" }}>
               {navItems.map(({ href, label, icon: Icon }) => {
                 const isActive = href === "/dashboard" ? pathname === href : pathname.startsWith(href);
                 return (
@@ -115,28 +215,63 @@ export default function TopBar() {
                     key={href}
                     href={href}
                     onClick={() => setMobileOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                      isActive ? "bg-violet-50 text-violet-700" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
-                    }`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      padding: "10px 12px",
+                      borderRadius: "10px",
+                      marginBottom: "2px",
+                      textDecoration: "none",
+                      background: isActive ? "rgba(99,71,251,0.2)" : "transparent",
+                      color: isActive ? "#a78bfa" : "rgba(255,255,255,0.55)",
+                      fontWeight: isActive ? 600 : 500,
+                      fontSize: "0.875rem",
+                      border: isActive ? "1px solid rgba(99,71,251,0.2)" : "1px solid transparent",
+                    }}
                   >
-                    <Icon className={`w-5 h-5 ${isActive ? "text-violet-600" : "text-slate-400"}`} />
+                    <Icon size={18} />
                     {label}
                   </Link>
                 );
               })}
             </nav>
-            <div className="px-3 pb-4 border-t border-slate-100 pt-3">
+
+            {/* Logout */}
+            <div style={{ padding: "12px 10px 20px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: "10px",
+                  border: "none",
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.4)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                }}
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut size={18} />
                 Sign out
               </button>
             </div>
           </aside>
         </div>
       )}
+
+      <style jsx>{`
+        .topbar-mobile-btn { display: none !important; }
+        .search-btn-desktop { display: flex !important; }
+        @media (max-width: 767px) {
+          .topbar-mobile-btn { display: flex !important; }
+          .search-btn-desktop { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }
