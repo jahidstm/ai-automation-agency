@@ -130,19 +130,20 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger (Only visible on mobile/iPhone devices) */}
           <button
             id="mobile-menu-toggle"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="nav-mobile"
+            className="nav-mobile md:hidden"
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
               color: "var(--navy-deep)",
               padding: "0.5rem",
-              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -319,7 +320,7 @@ export default function Navbar() {
 
       <style jsx>{`
         .nav-desktop { display: flex; }
-        .nav-mobile { display: none; }
+        .nav-mobile { display: none !important; }
         @media (max-width: 767px) {
           .nav-desktop { display: none !important; }
           .nav-mobile { display: flex !important; }
