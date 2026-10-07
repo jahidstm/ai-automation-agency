@@ -7,16 +7,33 @@ export const metadata: Metadata = { title: "Order Management" };
 export default async function AdminOrdersPage() {
   const supabase = await createAdminSupabaseClient();
 
-  const [{ data: orders }, { data: clients }] = await Promise.all([
+  const [{ data: ordersRaw }, { data: clientsRaw }, { data: authData }] = await Promise.all([
     supabase.from("orders").select(`
       *,
-      profiles:client_id (full_name, email),
+      profiles:client_id (full_name),
       order_milestones (id, title, status, sort_order)
     `).order("created_at", { ascending: false }),
-    supabase.from("profiles").select("id, full_name, email").eq("role", "client").order("full_name"),
+    supabase.from("profiles").select("id, full_name").eq("role", "client").order("full_name"),
+    supabase.auth.admin.listUsers(),
   ]);
 
-  return <AdminOrdersPanel orders={(orders as AdminOrder[]) || []} clients={(clients as AdminClient[]) || []} />;
+  const emailMap = new Map((authData?.users || []).map((u) => [u.id, u.email || ""]));
+
+  const clients: AdminClient[] = (clientsRaw || []).map((c) => ({
+    id: c.id,
+    full_name: c.full_name,
+    email: emailMap.get(c.id) || "",
+  }));
+
+  const orders: AdminOrder[] = (ordersRaw || []).map((o: any) => ({
+    ...o,
+    profiles: o.profiles ? {
+      full_name: o.profiles.full_name,
+      email: emailMap.get(o.client_id) || "",
+    } : null,
+  }));
+
+  return <AdminOrdersPanel orders={orders} clients={clients} />;
 }
 
 export interface AdminClient {

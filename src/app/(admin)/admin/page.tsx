@@ -8,22 +8,30 @@ export default async function AdminDashboardPage() {
   const supabase = await createAdminSupabaseClient();
 
   const [
-    { data: clients },
+    { data: clientsRaw },
     { data: invoices },
     { data: orders },
     { data: payments },
     { data: messages },
+    { data: authData },
   ] = await Promise.all([
-    supabase.from("profiles").select("id, full_name, email, created_at").eq("role", "client").order("created_at", { ascending: false }),
+    supabase.from("profiles").select("id, full_name, created_at").eq("role", "client").order("created_at", { ascending: false }),
     supabase.from("invoices").select("id, amount, status, created_at").order("created_at", { ascending: false }),
     supabase.from("orders").select("id, title, status, priority, total_amount, created_at").order("created_at", { ascending: false }),
     supabase.from("payments").select("id, amount, created_at").order("created_at", { ascending: false }),
     supabase.from("messages").select("id, created_at").gte("created_at", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
+    supabase.auth.admin.listUsers(),
   ]);
+
+  const emailMap = new Map((authData?.users || []).map((u) => [u.id, u.email || ""]));
+  const clients = (clientsRaw || []).map((c) => ({
+    ...c,
+    email: emailMap.get(c.id) || "",
+  }));
 
   const stats = {
     totalRevenue: (payments || []).reduce((a, p) => a + Number(p.amount), 0),
-    totalClients: (clients || []).length,
+    totalClients: clients.length,
     activeOrders: (orders || []).filter((o) => o.status === "in_progress" || o.status === "pending").length,
     pendingInvoices: (invoices || []).filter((i) => i.status === "unpaid" || i.status === "overdue").length,
     pendingAmount: (invoices || []).filter((i) => i.status === "unpaid" || i.status === "overdue").reduce((a, i) => a + Number(i.amount), 0),
@@ -50,7 +58,7 @@ export default async function AdminDashboardPage() {
       stats={stats}
       revenueData={revenueData}
       recentOrders={(orders || []).slice(0, 5)}
-      recentClients={(clients || []).slice(0, 5)}
+      recentClients={clients.slice(0, 5)}
     />
   );
 }
