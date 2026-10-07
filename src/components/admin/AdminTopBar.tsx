@@ -1,48 +1,315 @@
 "use client";
 
-import { Menu, Bell, Search } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Menu, Search, Zap, LogOut, X } from "lucide-react";
+import NotificationBell from "@/components/dashboard/NotificationBell";
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  LayoutDashboard,
+  Users,
+  ShoppingBag,
+  FileText,
+  BookOpen,
+  MessageSquare,
+  Settings,
+} from "lucide-react";
+import { createClient } from "@/lib/supabase";
+
+const navItems = [
+  { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/admin/clients", label: "Clients", icon: Users },
+  { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
+  { href: "/admin/invoices", label: "Invoices", icon: FileText },
+  { href: "/admin/messages", label: "Messages", icon: MessageSquare },
+  { href: "/admin/blog", label: "Blog / CMS", icon: BookOpen },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
+];
 
 const pageTitles: Record<string, string> = {
-  "/admin": "Dashboard Overview",
+  "/admin": "Admin Overview",
   "/admin/clients": "Client Management",
   "/admin/orders": "Order Management",
   "/admin/invoices": "Invoice Management",
-  "/admin/messages": "Messages",
-  "/admin/blog": "Blog & Case Studies",
-  "/admin/settings": "Settings",
+  "/admin/messages": "Admin Messages",
+  "/admin/blog": "Blog & Case Studies CMS",
+  "/admin/settings": "Admin Settings",
 };
 
 export default function AdminTopBar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const supabase = createClient();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const title = Object.entries(pageTitles).find(([key]) =>
     key === "/admin" ? pathname === key : pathname.startsWith(key)
   )?.[1] ?? "Admin Panel";
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   return (
-    <header className="h-16 bg-[#0f0f1a]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
-      <div className="flex items-center gap-3">
-        <button className="md:hidden p-2 rounded-lg text-white/40 hover:bg-white/10">
-          <Menu className="w-5 h-5" />
-        </button>
-        <div>
-          <h2 className="text-sm font-semibold text-white">{title}</h2>
-          <p className="text-[11px] text-white/30">AutomateAI Agency</p>
+    <>
+      <header
+        style={{
+          height: "64px",
+          background: "#fff",
+          borderBottom: "1px solid #E2E8F0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 1.25rem 0 1rem",
+          position: "sticky",
+          top: 0,
+          zIndex: 20,
+          flexShrink: 0,
+        }}
+      >
+        {/* Left */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <button
+            onClick={() => setMobileOpen(true)}
+            style={{
+              background: "none",
+              border: "none",
+              padding: "6px",
+              borderRadius: "8px",
+              color: "#64748B",
+              cursor: "pointer",
+            }}
+            className="md:hidden"
+          >
+            <Menu size={20} />
+          </button>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #F56962, #6347FB)",
+                boxShadow: "0 0 8px rgba(245,105,98,0.5)",
+              }}
+            />
+            <h2
+              style={{
+                fontWeight: 700,
+                fontSize: "1.025rem",
+                color: "#0C344A",
+                margin: 0,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {title}
+            </h2>
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                background: "#FDEEE9",
+                color: "#F56962",
+                padding: "2px 7px",
+                borderRadius: "6px",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+              }}
+            >
+              Agency Mode
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <button className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/30 text-sm hover:bg-white/10 transition-colors">
-          <Search className="w-3.5 h-3.5" />
-          <span className="text-xs">Search...</span>
-        </button>
-        <button className="relative p-2 rounded-lg text-white/40 hover:bg-white/10 transition-colors">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#F56962] rounded-full" />
-        </button>
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F56962] to-orange-600 flex items-center justify-center text-white text-xs font-bold cursor-pointer select-none">
-          A
+
+        {/* Right */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {/* Search */}
+          <button
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "7px 14px",
+              background: "#F8FAFC",
+              border: "1px solid #E2E8F0",
+              borderRadius: "10px",
+              color: "#94A3B8",
+              fontSize: "0.8125rem",
+              cursor: "pointer",
+              transition: "all 0.2s",
+            }}
+            className="hidden sm:flex"
+          >
+            <Search size={13} />
+            <span>Search admin...</span>
+          </button>
+
+          <NotificationBell />
+
+          {/* Avatar */}
+          <div
+            title="Admin Profile"
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #F56962 0%, #6347FB 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+              fontSize: "0.8rem",
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(245,105,98,0.3)",
+              flexShrink: 0,
+            }}
+          >
+            A
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile Drawer */}
+      {mobileOpen && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex" }}>
+          <div
+            style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(3px)" }}
+            onClick={() => setMobileOpen(false)}
+          />
+          <aside
+            style={{
+              position: "relative",
+              width: "260px",
+              height: "100%",
+              background: "linear-gradient(180deg, #0C1929 0%, #0d1f35 100%)",
+              display: "flex",
+              flexDirection: "column",
+              boxShadow: "4px 0 32px rgba(0,0,0,0.4)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 16px",
+                height: "64px",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "8px",
+                    background: "linear-gradient(135deg, #F56962, #6347FB)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Zap size={15} color="#fff" strokeWidth={2.5} />
+                </div>
+                <span style={{ fontWeight: 700, color: "#fff", fontSize: "0.95rem" }}>
+                  AutomateAI<span style={{ color: "#F56962" }}>.</span>
+                </span>
+              </div>
+              <button
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  background: "rgba(255,255,255,0.07)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "7px",
+                  color: "#fff",
+                  width: "32px",
+                  height: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <nav style={{ flex: 1, padding: "12px 10px" }}>
+              {navItems.map(({ href, label, icon: Icon, exact }) => {
+                const isActive = exact ? pathname === href : pathname.startsWith(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setMobileOpen(false)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      padding: "10px 12px",
+                      borderRadius: "10px",
+                      marginBottom: "2px",
+                      textDecoration: "none",
+                      background: isActive ? "rgba(245,105,98,0.2)" : "transparent",
+                      color: isActive ? "#F56962" : "rgba(255,255,255,0.6)",
+                      fontWeight: isActive ? 600 : 500,
+                      fontSize: "0.875rem",
+                    }}
+                  >
+                    <Icon size={18} />
+                    {label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div style={{ padding: "12px 10px 20px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: "10px",
+                  color: "rgba(255,255,255,0.6)",
+                  fontSize: "0.875rem",
+                  textDecoration: "none",
+                  marginBottom: "4px",
+                }}
+              >
+                <LayoutDashboard size={18} />
+                Client View
+              </Link>
+              <button
+                onClick={handleLogout}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: "10px",
+                  border: "none",
+                  background: "transparent",
+                  color: "#f87171",
+                  fontSize: "0.875rem",
+                  cursor: "pointer",
+                }}
+              >
+                <LogOut size={18} />
+                Sign out
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

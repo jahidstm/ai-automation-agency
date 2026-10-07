@@ -96,7 +96,7 @@ export default function AdminInvoicePanel({ clients, invoices: initialInvoices }
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
+    <div className="flex flex-col gap-6 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -121,7 +121,7 @@ export default function AdminInvoicePanel({ clients, invoices: initialInvoices }
           { label: "Outstanding", value: `$${totalPending.toLocaleString()}`, icon: Clock, color: "bg-amber-50 text-amber-600" },
           { label: "Clients", value: clients.length.toString(), icon: Users, color: "bg-blue-50 text-blue-600" },
         ].map((stat) => (
-          <div key={stat.label} className="bg-white rounded-2xl border border-slate-100 p-5">
+          <div key={stat.label} className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5">
             <div className="flex items-center gap-3 mb-2">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${stat.color}`}>
                 <stat.icon className="w-5 h-5" />

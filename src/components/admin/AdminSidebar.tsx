@@ -1,14 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { LayoutDashboard, Users, ShoppingBag, FileText, BookOpen, ChevronLeft, ChevronRight, LogOut, Zap, Settings, MessageSquare } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  ShoppingBag,
+  FileText,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
+  Zap,
+  Settings,
+  MessageSquare,
+  ShieldAlert,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/admin/clients", label: "Clients", icon: Users },
   { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { href: "/admin/invoices", label: "Invoices", icon: FileText },
@@ -30,64 +42,297 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className={`hidden md:flex flex-col h-screen sticky top-0 bg-[#0f0f1a] border-r border-white/5 transition-all duration-300 ${collapsed ? "w-[72px]" : "w-[260px]"}`}>
+    <aside
+      style={{
+        width: collapsed ? "72px" : "240px",
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #0C1929 0%, #0d1f35 100%)",
+        borderRight: "1px solid rgba(255,255,255,0.06)",
+        display: "none",
+        flexDirection: "column",
+        transition: "width 0.3s cubic-bezier(0.4,0,0.2,1)",
+        flexShrink: 0,
+        position: "sticky",
+        top: 0,
+      }}
+      className="md-admin-sidebar"
+    >
       {/* Logo */}
-      <div className="flex items-center justify-between px-4 h-16 border-b border-white/5">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: collapsed ? "center" : "space-between",
+          padding: collapsed ? "0 12px" : "0 16px",
+          height: "64px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          flexShrink: 0,
+        }}
+      >
         {!collapsed && (
-          <Link href="/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#F56962] to-orange-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-900/30">
-              <Zap className="w-4 h-4 text-white" />
+          <Link href="/admin" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "8px",
+                background: "linear-gradient(135deg, #F56962 0%, #6347FB 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 4px 12px rgba(245,105,98,0.4)",
+                flexShrink: 0,
+              }}
+            >
+              <Zap size={16} color="#fff" strokeWidth={2.5} />
             </div>
             <div>
-              <span className="font-bold text-sm text-white whitespace-nowrap">AutomateAI</span>
-              <span className="block text-[10px] text-orange-400 font-medium tracking-wider uppercase">Admin Panel</span>
+              <span
+                style={{
+                  fontWeight: 700,
+                  fontSize: "0.95rem",
+                  color: "#fff",
+                  whiteSpace: "nowrap",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                AutomateAI<span style={{ color: "#F56962" }}>.</span>
+              </span>
+              <span
+                style={{
+                  display: "inline-block",
+                  marginLeft: "6px",
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  background: "rgba(245,105,98,0.2)",
+                  color: "#F56962",
+                  padding: "1px 5px",
+                  borderRadius: "4px",
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  verticalAlign: "middle",
+                }}
+              >
+                Admin
+              </span>
             </div>
           </Link>
         )}
+
         {collapsed && (
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#F56962] to-orange-600 flex items-center justify-center mx-auto">
-            <Zap className="w-4 h-4 text-white" />
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              background: "linear-gradient(135deg, #F56962 0%, #6347FB 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Zap size={16} color="#fff" strokeWidth={2.5} />
           </div>
         )}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={`p-1.5 rounded-lg text-white/30 hover:bg-white/10 hover:text-white/70 transition-colors ${collapsed ? "absolute -right-3.5 top-5 bg-[#0f0f1a] border border-white/10 shadow-md z-10" : ""}`}
-        >
-          {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
-        </button>
+
+        {!collapsed && (
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              background: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "6px",
+              color: "rgba(255,255,255,0.6)",
+              width: "28px",
+              height: "28px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              transition: "all 0.2s",
+              flexShrink: 0,
+            }}
+          >
+            <ChevronLeft size={14} />
+          </button>
+        )}
+
+        {collapsed && (
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              position: "absolute",
+              right: "-14px",
+              top: "20px",
+              background: "#1E2D3D",
+              border: "1px solid rgba(255,255,255,0.12)",
+              borderRadius: "50%",
+              color: "rgba(255,255,255,0.7)",
+              width: "28px",
+              height: "28px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              zIndex: 10,
+            }}
+          >
+            <ChevronRight size={14} />
+          </button>
+        )}
       </div>
 
-      {!collapsed && (
-        <div className="px-4 pt-4 pb-1">
-          <span className="text-[10px] font-semibold text-white/25 uppercase tracking-widest">Management</span>
-        </div>
-      )}
-
-      <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
+      {/* Nav */}
+      <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
         {navItems.map(({ href, label, icon: Icon, exact }) => {
           const isActive = exact ? pathname === href : pathname.startsWith(href);
           return (
-            <Link key={href} href={href} title={collapsed ? label : undefined}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${isActive ? "bg-[#F56962]/15 text-[#F56962]" : "text-white/40 hover:bg-white/5 hover:text-white/80"}`}
+            <Link
+              key={href}
+              href={href}
+              title={collapsed ? label : undefined}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: collapsed ? "0" : "12px",
+                justifyContent: collapsed ? "center" : "flex-start",
+                padding: "10px 12px",
+                borderRadius: "10px",
+                marginBottom: "2px",
+                textDecoration: "none",
+                background: isActive
+                  ? "linear-gradient(135deg, rgba(245,105,98,0.22) 0%, rgba(99,71,251,0.18) 100%)"
+                  : "transparent",
+                border: isActive ? "1px solid rgba(245,105,98,0.3)" : "1px solid transparent",
+                color: isActive ? "#F56962" : "rgba(255,255,255,0.55)",
+                fontWeight: isActive ? 600 : 500,
+                fontSize: "0.875rem",
+                transition: "all 0.18s ease",
+                position: "relative",
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "rgba(255,255,255,0.05)";
+                  el.style.color = "rgba(255,255,255,0.85)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "transparent";
+                  el.style.color = "rgba(255,255,255,0.55)";
+                }
+              }}
             >
-              <Icon size={18} className={`flex-shrink-0 transition-colors ${isActive ? "text-[#F56962]" : "text-white/30 group-hover:text-white/60"}`} />
-              {!collapsed && <span>{label}</span>}
-              {isActive && !collapsed && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#F56962]" />}
+              <Icon
+                size={18}
+                style={{
+                  flexShrink: 0,
+                  color: isActive ? "#F56962" : "rgba(255,255,255,0.45)",
+                }}
+              />
+              {!collapsed && <span style={{ whiteSpace: "nowrap" }}>{label}</span>}
+              {isActive && !collapsed && (
+                <span
+                  style={{
+                    marginLeft: "auto",
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: "#F56962",
+                    boxShadow: "0 0 8px #F56962",
+                  }}
+                />
+              )}
             </Link>
           );
         })}
       </nav>
 
-      <div className="px-3 pb-4 border-t border-white/5 pt-3 space-y-1">
-        <Link href="/dashboard" className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/30 hover:bg-white/5 hover:text-white/60 transition-all group">
-          <LayoutDashboard size={18} className="flex-shrink-0 text-white/20 group-hover:text-white/50" />
+      {/* Bottom Actions: Client View & Logout */}
+      <div
+        style={{
+          padding: "12px 10px 16px",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "4px",
+        }}
+      >
+        <Link
+          href="/dashboard"
+          title={collapsed ? "Client View" : undefined}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: collapsed ? "0" : "12px",
+            justifyContent: collapsed ? "center" : "flex-start",
+            padding: "9px 12px",
+            borderRadius: "10px",
+            textDecoration: "none",
+            color: "rgba(255,255,255,0.5)",
+            fontSize: "0.8125rem",
+            fontWeight: 500,
+            transition: "all 0.18s",
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "rgba(99,71,251,0.15)";
+            el.style.color = "#a78bfa";
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "transparent";
+            el.style.color = "rgba(255,255,255,0.5)";
+          }}
+        >
+          <LayoutDashboard size={16} style={{ flexShrink: 0 }} />
           {!collapsed && <span>Client View</span>}
         </Link>
-        <button onClick={handleLogout} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/30 hover:bg-red-500/10 hover:text-red-400 transition-all group">
-          <LogOut size={18} className="flex-shrink-0 text-white/20 group-hover:text-red-400" />
+
+        <button
+          onClick={handleLogout}
+          title={collapsed ? "Sign out" : undefined}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: collapsed ? "0" : "12px",
+            justifyContent: collapsed ? "center" : "flex-start",
+            width: "100%",
+            padding: "9px 12px",
+            borderRadius: "10px",
+            border: "none",
+            background: "transparent",
+            color: "rgba(255,255,255,0.4)",
+            fontSize: "0.8125rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.18s",
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "rgba(239, 68, 68, 0.12)";
+            el.style.color = "#f87171";
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "transparent";
+            el.style.color = "rgba(255,255,255,0.4)";
+          }}
+        >
+          <LogOut size={16} style={{ flexShrink: 0 }} />
           {!collapsed && <span>Sign out</span>}
         </button>
       </div>
+
+      <style jsx>{`
+        .md-admin-sidebar { display: none !important; }
+        @media (min-width: 768px) {
+          .md-admin-sidebar { display: flex !important; }
+        }
+      `}</style>
     </aside>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { createAdminSupabaseClient } from "@/lib/supabase-server";
-import AdminInvoicesPanel from "@/components/admin/AdminInvoicesPanel";
+import AdminInvoicePanel from "@/components/admin/AdminInvoicePanel";
 
 export const metadata: Metadata = { title: "Invoice Management" };
 
@@ -32,7 +32,7 @@ export default async function AdminInvoicesPage() {
     } : null,
   }));
 
-  return <AdminInvoicesPanel invoices={invoices} clients={clients} />;
+  return <AdminInvoicePanel invoices={invoices} clients={clients} />;
 }
 
 export interface AdminClient {
