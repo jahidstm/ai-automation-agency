@@ -120,7 +120,9 @@ export default function AdminSidebar() {
         )}
 
         {collapsed && (
-          <div
+          <button
+            onClick={() => setCollapsed(false)}
+            title="Expand sidebar"
             style={{
               width: "32px",
               height: "32px",
@@ -129,15 +131,22 @@ export default function AdminSidebar() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              border: "none",
+              cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(245,105,98,0.3)",
+              transition: "transform 0.15s ease",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <Zap size={16} color="#fff" strokeWidth={2.5} />
-          </div>
+          </button>
         )}
 
         {!collapsed && (
           <button
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() => setCollapsed(true)}
+            title="Collapse sidebar"
             style={{
               background: "rgba(255,255,255,0.07)",
               border: "1px solid rgba(255,255,255,0.1)",
@@ -152,33 +161,16 @@ export default function AdminSidebar() {
               transition: "all 0.2s",
               flexShrink: 0,
             }}
-          >
-            <ChevronLeft size={14} />
-          </button>
-        )}
-
-        {collapsed && (
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              position: "absolute",
-              right: "-14px",
-              top: "20px",
-              background: "#1E2D3D",
-              border: "1px solid rgba(255,255,255,0.12)",
-              borderRadius: "50%",
-              color: "rgba(255,255,255,0.7)",
-              width: "28px",
-              height: "28px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-              zIndex: 10,
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+              e.currentTarget.style.color = "#ffffff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.6)";
             }}
           >
-            <ChevronRight size={14} />
+            <ChevronLeft size={14} />
           </button>
         )}
       </div>
@@ -261,6 +253,45 @@ export default function AdminSidebar() {
           gap: "4px",
         }}
       >
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: collapsed ? "0" : "12px",
+            justifyContent: collapsed ? "center" : "flex-start",
+            width: "100%",
+            padding: "9px 12px",
+            borderRadius: "10px",
+            border: "1px solid rgba(255,255,255,0.06)",
+            background: "rgba(255,255,255,0.04)",
+            color: "rgba(255,255,255,0.6)",
+            fontSize: "0.8125rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.18s",
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "rgba(255,255,255,0.08)";
+            el.style.color = "#ffffff";
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "rgba(255,255,255,0.04)";
+            el.style.color = "rgba(255,255,255,0.6)";
+          }}
+        >
+          {collapsed ? (
+            <ChevronRight size={16} style={{ flexShrink: 0 }} />
+          ) : (
+            <>
+              <ChevronLeft size={16} style={{ flexShrink: 0 }} />
+              <span style={{ whiteSpace: "nowrap" }}>Collapse sidebar</span>
+            </>
+          )}
+        </button>
         <Link
           href="/dashboard"
           title={collapsed ? "Client View" : undefined}

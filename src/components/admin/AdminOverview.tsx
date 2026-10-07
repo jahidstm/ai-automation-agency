@@ -115,9 +115,11 @@ export default function AdminOverview({ stats, revenueData, recentOrders, recent
           <div className="flex items-center gap-3">
             <a
               href="/admin/orders"
-              className="flex items-center gap-2 bg-[#F56962] hover:bg-[#e05a53] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow whitespace-nowrap"
+              className="flex items-center gap-2 bg-[#F56962] hover:bg-[#e05a53] !text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow whitespace-nowrap"
+              style={{ color: "#ffffff" }}
             >
-              Manage Orders <ArrowRight className="w-4 h-4" />
+              <span style={{ color: "#ffffff" }}>Manage Orders</span>
+              <ArrowRight className="w-4 h-4 text-white" />
             </a>
           </div>
         </div>
